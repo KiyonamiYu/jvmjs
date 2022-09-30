@@ -1,0 +1,48 @@
+{
+  "name": "jvmts",
+  "version": "1.0.0",
+  "description": "use TypeScript to run Java program",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx webpack build --config ./webpack.config.js --mode development",
+    "serve": "npx webpack serve --config ./webpack.config.js --mode development",
+    "watch": "npx webpack watch --config ./webpack.config.js --mode development",
+    "test": "jest",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "@types/jest": "^28.1.6",
+    "@typescript-eslint/eslint-plugin": "^5.31.0",
+    "@typescript-eslint/parser": "^5.31.0",
+    "commitizen": "^4.2.5",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "8.22.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "html-webpack-plugin": "^5.5.0",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "stream-browserify": "^3.0.0",
+    "ts-jest": "^28.0.7",
+    "ts-loader": "^9.2.8",
+    "typescript": "^4.7.4",
+    "webpack": "^5.73.0",
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.7.4"
+  },
+  "keywords": [],
+  "author": "Qingbo Yu",
+  "license": "ISC",
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,md,html}": [
+      "npx eslint"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
