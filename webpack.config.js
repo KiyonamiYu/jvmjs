@@ -20,30 +20,30 @@ const commonConfig = {
   },
 };
 
-const browserConfig = {
-  ...commonConfig,
-  target: "web",
-  output: {
-    filename: "index.browser.js",
-    path: path.resolve(__dirname, "dist"),
-    libraryTarget: "umd",
-    globalObject: "this",
-    library: "hyperchain",
-  },
-  resolve: {
-    extensions: [".tsx", ".ts", ".js"],
-    fallback: {
-      http: false,
-      stream: require.resolve("stream-browserify"),
-    },
-  },
-  plugins: [
-    new webpack.ProvidePlugin({
-      process: "process/browser",
-      Buffer: ["buffer", "Buffer"],
-    }),
-  ],
-};
+// const browserConfig = {
+//   ...commonConfig,
+//   target: "web",
+//   output: {
+//     filename: "index.browser.js",
+//     path: path.resolve(__dirname, "dist"),
+//     libraryTarget: "umd",
+//     globalObject: "this",
+//     library: "hyperchain",
+//   },
+//   resolve: {
+//     extensions: [".tsx", ".ts", ".js"],
+//     fallback: {
+//       http: false,
+//       stream: require.resolve("stream-browserify"),
+//     },
+//   },
+//   plugins: [
+//     new webpack.ProvidePlugin({
+//       process: "process/browser",
+//       Buffer: ["buffer", "Buffer"],
+//     }),
+//   ],
+// };
 
 const nodeConfig = {
   ...commonConfig,
@@ -53,7 +53,7 @@ const nodeConfig = {
     path: path.resolve(__dirname, "dist"),
     libraryTarget: "umd",
     globalObject: "this",
-    library: "hyperchain",
+    library: "jvmts",
   },
   watchOptions: {
     aggregateTimeout: 200,
@@ -62,7 +62,7 @@ const nodeConfig = {
   },
 };
 
-module.exports = [browserConfig, nodeConfig];
+module.exports = [nodeConfig];
 
 // {
 //   context: path.resolve(__dirname, "./"),

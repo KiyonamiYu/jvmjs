@@ -1,4 +1,5 @@
 import { parseCmd, Cmd } from "./cmd";
+import { DirEntry, WildcardEntry, ZipEntry } from "./classpath";
 
 (function main() {
   const cmd = parseCmd();
