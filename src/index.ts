@@ -1,13 +1,16 @@
 import { parseCmd, Cmd } from "./cmd";
-import { DirEntry, WildcardEntry, ZipEntry } from "./classpath";
+import Classpath from "./classpath/classpath";
 
-(function main() {
+(async function main() {
   const cmd = parseCmd();
-  // the following code will not be executed if the command option is -v or -h
-  startJVM(cmd);
+  // the following code will not be executed if the command option is '-v' or '-h'
+  await startJVM(cmd);
 })();
 
-function startJVM(cmd: Cmd) {
+async function startJVM(cmd: Cmd) {
+  if (cmd.jrePath != null) {
+    console.log(`jrePath: ${cmd.jrePath}`);
+  }
   if (cmd.classpath != null) {
     console.log(`classpath: ${cmd.classpath}`);
   }
@@ -15,4 +18,8 @@ function startJVM(cmd: Cmd) {
   if (cmd.args != null) {
     console.log(`args: ${cmd.args}`);
   }
+  const classpath = Classpath.parse(cmd.jrePath, cmd.classpath);
+  const classname = cmd.classname.replace(/(\.)/g, "/");
+  const classBytes = await classpath.readClass(classname);
+  console.log(classBytes);
 }

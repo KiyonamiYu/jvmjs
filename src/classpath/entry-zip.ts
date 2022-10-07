@@ -27,7 +27,7 @@ export default class ZipEntry implements Entry {
       });
     }).then((buffer: ArrayBuffer) => {
       return JSZip.loadAsync(buffer).then(async (zip: JSZip) => {
-        const classFile: JSZip.JSZipObject | null = zip.file(classname);
+        const classFile: JSZip.JSZipObject | null = zip.file(classname); // get the specified class from the zip
         if (classFile == null) {
           throw new Error(`'${classname}' doesn't exist in '${this.zipPath}'!`);
         }

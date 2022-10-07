@@ -21,13 +21,12 @@ export default class CompositeEntry implements Entry {
 
   // equals readClass function of WildcardEntry
   public async readClass(classname: string): Promise<ArrayBuffer> {
-    try {
-      const readClassResults = this.entries.map((entry) => entry.readClass(classname));
-      for (let i = 0; i < readClassResults.length; i += 1) {
-        return await readClassResults[i];
+    for (let i = 0; i < this.entries.length; i += 1) {
+      try {
+        return await this.entries[i].readClass(classname);
+      } catch (e) {
+        // empty error handle
       }
-    } catch (e) {
-      // empty error handle
     }
     throw new Error(`there are no class named ${classname}`);
   }

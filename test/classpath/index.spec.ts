@@ -1,4 +1,5 @@
 import { CompositeEntry, DirEntry, WildcardEntry, ZipEntry } from "../../src/classpath";
+import Classpath from "../../src/classpath/classpath";
 
 describe("entry", () => {
   test("DirEntry", async () => {
@@ -42,5 +43,32 @@ describe("entry", () => {
 
     expect(buffer.byteLength).toBe(1272);
     expect(buffer).toStrictEqual(buffer0);
+  });
+});
+
+describe("classpath", () => {
+  test("read class named 'bean/InvokeBean'", async () => {
+    const wildcardEntry = new WildcardEntry("../../test/resource/*");
+    const buffer0 = await wildcardEntry.readClass("bean/InvokeBean.class");
+
+    const classpath = Classpath.parse(
+      undefined,
+      "../../test/resource/*:../../test/resource/contract-auction.jar"
+    );
+    const buffer = await classpath.readClass("bean/InvokeBean");
+
+    expect(buffer.byteLength).toBe(1272);
+    expect(buffer).toStrictEqual(buffer0);
+  });
+
+  test("read class named 'java/lang/Object'", async () => {
+    const classpath = Classpath.parse(
+      undefined,
+      "../../test/resource/*:../../test/resource/contract-auction.jar"
+    );
+    const buffer = await classpath.readClass("java/lang/Object");
+
+    // expect(buffer.byteLength).toBe(1272);
+    expect(buffer).not.toBeNull();
   });
 });
