@@ -1,7 +1,7 @@
 {
-  "name": "jvmts",
+  "name": "jvmjs",
   "version": "1.0.0",
-  "description": "use TypeScript to run Java program",
+  "description": "use JavaScript to run Java program",
   "main": "index.js",
   "scripts": {
     "build": "npx webpack build --config ./webpack.config.js --mode development",

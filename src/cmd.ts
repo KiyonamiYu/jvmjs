@@ -9,7 +9,7 @@ export interface Cmd {
 
 export function parseCmd(): Cmd {
   const cmd: Cmd = {} as Cmd;
-  // default has `-h` option
+  // includes '-h' option by default
   program
     .version("0.0.1", "-v, --version", "print the current version") // TODO read version from package.json
     .option("-Xjre <jrePath>", "path to jre")

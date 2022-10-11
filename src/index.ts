@@ -1,5 +1,5 @@
 import { parseCmd, Cmd } from "./cmd";
-import Classpath from "./classpath/classpath";
+import { Classpath } from "./classpath";
 
 (async function main() {
   const cmd = parseCmd();

@@ -28,13 +28,10 @@ export default class WildcardEntry implements Entry {
   }
 
   public async readClass(classname: string): Promise<ArrayBuffer> {
-    for (let i = 0; i < this.entries.length; i += 1) {
-      try {
-        return await this.entries[i].readClass(classname);
-      } catch (e) {
-        // empty error handle
-      }
-    }
-    throw new Error(`there are no class named ${classname}`);
+    const readClassPromises = this.entries.map((entry) => entry.readClass(classname));
+    // 'Promise.any' returns a single promise that fulfills as soon as any of the promises in the iterable fulfills, with the value of the fulfilled promise.
+    return Promise.any(readClassPromises).catch(() => {
+      throw new Error(`there are no class named ${classname}`);
+    });
   }
 }
