@@ -1,5 +1,8 @@
-import { CompositeEntry, DirEntry, WildcardEntry, ZipEntry } from "../../src/classpath";
-import Classpath from "../../src/classpath/classpath";
+import CompositeEntry from "../../src/classpath/entry-composite";
+import DirEntry from "../../src/classpath/entry-dir";
+import WildcardEntry from "../../src/classpath/entry-wildcard";
+import ZipEntry from "../../src/classpath/entry-zip";
+import { Classpath } from "../../src/classpath";
 
 describe("entry", () => {
   test("DirEntry", async () => {
