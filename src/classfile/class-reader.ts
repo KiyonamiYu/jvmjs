@@ -1,3 +1,6 @@
+/**
+ * to read bytecode more easily
+ */
 export default class ClassReader {
   private bytecode: DataView;
   private cursor: number;

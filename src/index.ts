@@ -1,5 +1,6 @@
 import { parseCmd, Cmd } from "./cmd";
 import { Classpath } from "./classpath";
+import { ClassFile } from "./classfile";
 
 (async function main() {
   const cmd = parseCmd();
@@ -18,8 +19,12 @@ async function startJVM(cmd: Cmd) {
   if (cmd.args != null) {
     console.log(`args: ${cmd.args}`);
   }
-  const classpath = Classpath.parse(cmd.jrePath, cmd.classpath);
   const classname = cmd.classname.replace(/(\.)/g, "/");
-  const classBytes = await classpath.readClass(classname);
-  console.log(classBytes);
+  // 解析路径，生成 Classpath
+  const classpath: Classpath = Classpath.parse(cmd.jrePath, cmd.classpath);
+  // 通过 Classpath 去加载字节码（指定类）
+  const bytecode = await classpath.readClass(classname);
+  // 将字节码解析成 ClassFile
+  const classFile = ClassFile.read(bytecode);
+  console.log(classFile);
 }
