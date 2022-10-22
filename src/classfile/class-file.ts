@@ -1,12 +1,14 @@
 import ClassReader from "./class-reader";
 import {
-  ConstantInfo,
-  readConstantInfo,
-  ConstantLongInfo,
   ConstantDoubleInfo,
+  ConstantInfo,
+  ConstantLongInfo,
+  readConstantInfo,
 } from "./constant-info";
 import { MemberInfo } from "./member-info";
 import { AttributeInfo, readAttribute } from "./attribute-info";
+import ConstantClassInfo from "./constant-info/constant-info-class";
+import ConstantUtf8Info from "./constant-info/constant-info-utf8";
 
 /*
 ClassFile {
@@ -29,28 +31,17 @@ ClassFile {
 }
 */
 export default class ClassFile {
-  private minorVersion: number;
-  private majorVersion: number;
-  private constantPool: ConstantInfo[];
-  private accessFlags: number;
-  private thisClass: number;
-  private superClass: number;
-  private interfaces: number[];
-  private fields: MemberInfo[];
-  private methods: MemberInfo[];
-  private attributes: AttributeInfo[];
-
   private constructor(
-    minorVersion: number,
-    majorVersion: number,
-    constantPool: ConstantInfo[],
-    accessFlags: number,
-    thisClass: number,
-    superClass: number,
-    interfaces: number[],
-    fields: MemberInfo[],
-    methods: MemberInfo[],
-    attributes: AttributeInfo[]
+    private readonly minorVersion: number,
+    private readonly majorVersion: number,
+    public readonly constantPool: ConstantInfo[],
+    private readonly accessFlags: number,
+    private readonly thisClass: number,
+    private readonly superClass: number,
+    private readonly interfaces: number[],
+    public readonly fields: MemberInfo[],
+    public readonly methods: MemberInfo[],
+    private readonly attributes: AttributeInfo[]
   ) {
     this.minorVersion = minorVersion;
     this.majorVersion = majorVersion;
@@ -152,5 +143,29 @@ export default class ClassFile {
       attributes[i] = readAttribute(classReader, constantPool);
     }
     return attributes;
+  }
+
+  public classVersion() {
+    return `${this.majorVersion}.${this.minorVersion}`;
+  }
+
+  public classname() {
+    return this.getClassnameFromConstantPool(this.thisClass);
+  }
+
+  public superClassname() {
+    return this.getClassnameFromConstantPool(this.superClass);
+  }
+
+  public interfaceNames() {
+    return this.interfaces.map((interfaceIndex: number) =>
+      this.getClassnameFromConstantPool(interfaceIndex)
+    );
+  }
+
+  private getClassnameFromConstantPool(classIndex: number) {
+    const constantClassInfo = this.constantPool[classIndex] as ConstantClassInfo;
+    const constantUtf8Info = this.constantPool[constantClassInfo.nameIndex] as ConstantUtf8Info;
+    return constantUtf8Info.str;
   }
 }

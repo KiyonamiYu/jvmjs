@@ -50,8 +50,9 @@ export class ConstantFloatInfo extends ConstantInfo {
   }
 
   public static read(classReader: ClassReader): ConstantInfo {
-    const value = classReader.readUint32(); // TODO 将字节转化为 32 位浮点数
-    return new ConstantFloatInfo(value as any as number);
+    const bytes = classReader.readBytes(4);
+    const value = Buffer.from(bytes).readFloatBE();
+    return new ConstantFloatInfo(value);
   }
 }
 
@@ -69,7 +70,8 @@ export class ConstantDoubleInfo extends ConstantInfo {
   }
 
   public static read(classReader: ClassReader): ConstantInfo {
-    const value = classReader.readUint64(); // TODO 字节转化为 double
-    return new ConstantDoubleInfo(value as any as number);
+    const bytes = classReader.readBytes(8);
+    const value = Buffer.from(bytes).readDoubleBE();
+    return new ConstantDoubleInfo(value);
   }
 }

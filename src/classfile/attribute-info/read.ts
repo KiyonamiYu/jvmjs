@@ -17,7 +17,7 @@ export default function read(
   constantPool: ConstantInfo[]
 ): AttributeInfo {
   const attrNameIndex = classReader.readUint16();
-  const attrName = (constantPool[attrNameIndex] as ConstantUtf8Info).getStr(); // TODO 抽离函数，使用 instanceof，主动抛错
+  const attrName = (constantPool[attrNameIndex] as ConstantUtf8Info).str; // TODO 抽离函数，使用 instanceof，主动抛错
   const attrLen = classReader.readUint32();
 
   switch (attrName) {

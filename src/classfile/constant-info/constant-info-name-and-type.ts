@@ -1,6 +1,5 @@
 import ConstantInfo from "./constant-info";
 import ClassReader from "../class-reader";
-import ConstantTag from "./constant-tag";
 
 /*
 CONSTANT_NameAndType_info {

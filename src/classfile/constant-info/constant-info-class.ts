@@ -1,15 +1,15 @@
-/*
-CONSTANT_String_info {
-    u1 tag;
-    u2 string_index;
-}
-*/
 import ConstantInfo from "./constant-info";
 import ClassReader from "../class-reader";
 import ConstantTag from "./constant-tag";
 
+/*
+CONSTANT_Class_info {
+    u1 tag;
+    u2 name_index;
+}
+*/
 export default class ConstantClassInfo extends ConstantInfo {
-  private constructor(private nameIndex: number) {
+  private constructor(public readonly nameIndex: number) {
     super();
     this.nameIndex = nameIndex;
   }

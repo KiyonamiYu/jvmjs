@@ -9,7 +9,7 @@ CONSTANT_Utf8_info {
 }
 */
 export default class ConstantUtf8Info extends ConstantInfo {
-  private constructor(private readonly str: string) {
+  private constructor(public readonly str: string) {
     super();
     this.str = str;
   }
@@ -22,10 +22,7 @@ export default class ConstantUtf8Info extends ConstantInfo {
   }
 
   private static decodeMUTF8(bytes: ArrayBuffer) {
-    return "==="; // TODO 将字节转化为 MUTF8
-  }
-
-  public getStr(): string {
-    return this.str;
+    // TODO MUTF8
+    return new TextDecoder().decode(bytes);
   }
 }
