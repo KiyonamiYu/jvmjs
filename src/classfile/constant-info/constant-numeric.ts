@@ -27,7 +27,7 @@ CONSTANT_Long_info {
 }
 */
 export class ConstantLongInfo extends ConstantInfo {
-  constructor(private value: bigint) {
+  private constructor(private value: bigint) {
     super();
     this.value = value;
   }
@@ -51,7 +51,7 @@ export class ConstantFloatInfo extends ConstantInfo {
 
   public static read(classReader: ClassReader): ConstantInfo {
     const bytes = classReader.readBytes(4);
-    const value = Buffer.from(bytes).readFloatBE();
+    const value = new DataView(bytes).getFloat32(0);
     return new ConstantFloatInfo(value);
   }
 }
@@ -71,7 +71,7 @@ export class ConstantDoubleInfo extends ConstantInfo {
 
   public static read(classReader: ClassReader): ConstantInfo {
     const bytes = classReader.readBytes(8);
-    const value = Buffer.from(bytes).readDoubleBE();
+    const value = new DataView(bytes).getFloat64(0);
     return new ConstantDoubleInfo(value);
   }
 }

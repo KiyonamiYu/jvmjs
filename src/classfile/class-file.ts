@@ -5,7 +5,7 @@ import {
   ConstantLongInfo,
   readConstantInfo,
 } from "./constant-info";
-import { MemberInfo } from "./member-info";
+import { FieldInfo, MethodInfo } from "./member-info";
 import { AttributeInfo, readAttribute } from "./attribute-info";
 import ConstantClassInfo from "./constant-info/constant-info-class";
 import ConstantUtf8Info from "./constant-info/constant-info-utf8";
@@ -39,8 +39,8 @@ export default class ClassFile {
     private readonly thisClass: number,
     private readonly superClass: number,
     private readonly interfaces: number[],
-    public readonly fields: MemberInfo[],
-    public readonly methods: MemberInfo[],
+    public readonly fields: FieldInfo[],
+    public readonly methods: MethodInfo[],
     private readonly attributes: AttributeInfo[]
   ) {
     this.minorVersion = minorVersion;
@@ -68,8 +68,8 @@ export default class ClassFile {
     const thisClass = classReader.readUint16();
     const superClass = classReader.readUint16();
     const interfaces = classReader.readUint16s();
-    const fields = ClassFile.readMembers(classReader, constantPool);
-    const methods = ClassFile.readMembers(classReader, constantPool);
+    const fields = ClassFile.readFields(classReader, constantPool);
+    const methods = ClassFile.readMethods(classReader, constantPool);
     const attributes = ClassFile.readAttributes(classReader, constantPool);
 
     return new ClassFile(
@@ -127,11 +127,20 @@ export default class ClassFile {
     return constantPool;
   }
 
-  private static readMembers(classReader: ClassReader, constantPool: ConstantInfo[]) {
+  private static readFields(classReader: ClassReader, constantPool: ConstantInfo[]) {
     const memberCount = classReader.readUint16();
-    const members = new Array<MemberInfo>(memberCount);
+    const members = new Array<FieldInfo>(memberCount);
     for (let i = 0; i < memberCount; i += 1) {
-      members[i] = MemberInfo.read(classReader, constantPool);
+      members[i] = FieldInfo.read(classReader, constantPool);
+    }
+    return members;
+  }
+
+  private static readMethods(classReader: ClassReader, constantPool: ConstantInfo[]) {
+    const memberCount = classReader.readUint16();
+    const members = new Array<MethodInfo>(memberCount);
+    for (let i = 0; i < memberCount; i += 1) {
+      members[i] = MethodInfo.read(classReader, constantPool);
     }
     return members;
   }

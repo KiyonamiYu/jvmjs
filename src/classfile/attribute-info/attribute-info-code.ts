@@ -25,9 +25,9 @@ Code_attribute {
 */
 export default class CodeAttribute extends AttributeInfo {
   private constructor(
-    private maxStack: number,
-    private maxLocals: number,
-    private code: ArrayBuffer,
+    public readonly maxStack: number,
+    public readonly maxLocals: number,
+    public readonly code: ArrayBuffer,
     private exceptionTable: ExceptionTableEntry[],
     private attributes: AttributeInfo[]
   ) {

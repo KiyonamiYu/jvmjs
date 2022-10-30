@@ -1,6 +1,8 @@
 import { parseCmd, Cmd } from "./cmd";
 import { Classpath } from "./classpath";
 import { ClassFile } from "./classfile";
+import { MethodInfo } from "./classfile/member-info";
+import interpret from "./interpreter";
 
 (async function main() {
   const cmd = parseCmd();
@@ -27,4 +29,19 @@ async function startJVM(cmd: Cmd) {
   // 将字节码解析成 ClassFile
   const classFile = ClassFile.read(bytecode);
   console.log(classFile);
+  const mainMethod = getMainMethod(classFile);
+  if (mainMethod == null) {
+    throw new Error(`Main method not found in class ${cmd.classname}`);
+  }
+  interpret(mainMethod);
+}
+
+function getMainMethod(classFile: ClassFile): MethodInfo | null {
+  for (let i = 0; i < classFile.methods.length; i += 1) {
+    const method = classFile.methods[i];
+    if (method.name() === "main" && method.descriptor() === "([Ljava/lang/String;)V") {
+      return method;
+    }
+  }
+  return null;
 }
